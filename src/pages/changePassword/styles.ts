@@ -6,11 +6,22 @@ export const styles = StyleSheet.create({
         padding: 16,
         justifyContent: 'flex-end',
     },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#000',
+        textAlign: 'center',
+    },
     boxLogin: {
         gap: 16,
     },
     textForgotPassword: {
         color: '#FFF',
         textAlign: 'center',
+    },
+    error: {
+        color: 'red',
+        fontSize: 12,
+        marginTop: -15
     }
 })

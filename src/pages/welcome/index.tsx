@@ -4,9 +4,24 @@ import { NavigationProp, useNavigation } from "@react-navigation/native"
 import { ButtonComponent } from "../../components/ButtonComponent"
 import imgBg from "../../images/bg-signIn.jpg"
 import { styles } from './styles'
+import { useEffect } from "react"
+import { getToken } from "../../services/TokenService"
 
 const Welcome = () => {
     const navigation = useNavigation<NavigationProp<any>>()
+
+    useEffect(() => {
+        const fetchToken = async () => {
+            try {
+                const storedToken = await getToken();
+                if (storedToken) {
+                    navigation.navigate('Home')
+                }
+            } catch (error) { }
+        };
+        fetchToken();
+    }, []);
+
     return (
         <ImageBackground source={imgBg} style={styles.container}>
             <View>

@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from "react"
-import { ImageBackground, SafeAreaView, TouchableOpacity } from "react-native"
+import { ActivityIndicator, FlatList, ImageBackground, SafeAreaView, TouchableOpacity, View } from "react-native"
 import { MaterialIcons } from '@expo/vector-icons'
 import { DrawerActions, NavigationProp, useNavigation } from "@react-navigation/native"
 
@@ -8,10 +8,15 @@ import imgBg from "../../images/bg2.jpg"
 import { styles } from './styles'
 import { RegisterPurposeContent } from "../../components/RegisterPurpose"
 import BottomSheet from "@gorhom/bottom-sheet"
+import { Card } from "../../components/Card"
+import { useFetchPurpose } from "../../http/hooks/purpose/useFetchPurpose"
 
 const Home = () => {
     const bottomSheetRef = useRef<BottomSheet>(null);
     const navigation = useNavigation<NavigationProp<any>>()
+
+    const { purposes, isLoadingPurposes } = useFetchPurpose()
+
     const openDrawer = () => {
         navigation.dispatch(DrawerActions.openDrawer())
     }
@@ -24,25 +29,41 @@ const Home = () => {
     }, []);
 
     return (
-        <ImageBackground source={imgBg} style={styles.container}>
-            <SafeAreaView style={styles.header}>
-                <ButtonPlusComponent onPress={() => handleOpenBottomSheet()} />
-                <TouchableOpacity onPress={openDrawer}>
-                    <MaterialIcons name="menu" size={36} color="#000" />
-                </TouchableOpacity>
-            </SafeAreaView>
+        <ImageBackground source={imgBg} style={isLoadingPurposes ? styles.containerLoading : styles.container} >
+            {isLoadingPurposes ? <ActivityIndicator size={'large'} /> : (
+                <>
+                    <SafeAreaView style={styles.header}>
+                        <ButtonPlusComponent onPress={() => handleOpenBottomSheet()} />
+                        <TouchableOpacity onPress={openDrawer}>
+                            <MaterialIcons name="menu" size={36} color="#000" />
+                        </TouchableOpacity>
+                    </SafeAreaView>
 
-            <BottomSheet
-                ref={bottomSheetRef}
-                index={-1}
-                snapPoints={['95%']}
-                enablePanDownToClose={true}
-                backgroundStyle={{ opacity: 0.7, backgroundColor: "#000" }}
-                handleIndicatorStyle={{ backgroundColor: "#FFF", elevation: 1, zIndex: 99 }}
-            >
-                <RegisterPurposeContent handleSavePress={() => { handleCloseBottomSheet() }} />
-            </BottomSheet>
-        </ImageBackground>
+                    <FlatList
+                        showsVerticalScrollIndicator={false}
+                        data={purposes?.length > 0 ? purposes.sort((a: any, b: any) => b.isActive - a.isActive) : []}
+                        renderItem={({ item }) => <Card purpose={item} />}
+                        contentContainerStyle={{ gap: 12 }}
+                        keyExtractor={item => item.id}
+                        style={{ marginBottom: 44 }}
+                        onEndReached={() => { }}
+                        onEndReachedThreshold={0.1}
+                        onAccessibilityAction={() => { }}
+                    />
+
+                    <BottomSheet
+                        ref={bottomSheetRef}
+                        index={-1}
+                        snapPoints={['95%']}
+                        enablePanDownToClose={true}
+                        backgroundStyle={{ opacity: 0.7, backgroundColor: "#000" }}
+                        handleIndicatorStyle={{ backgroundColor: "#FFF", elevation: 1, zIndex: 99 }}
+                    >
+                        <RegisterPurposeContent handleSavePress={() => { handleCloseBottomSheet() }} />
+                    </BottomSheet>
+                </>
+            )}
+        </ImageBackground >
     )
 }
 

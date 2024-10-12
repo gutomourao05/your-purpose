@@ -5,11 +5,10 @@ const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/[0-9]{4}$/;
 
 export const RegisterPurposeSchema = z.object({
     name: z.string().min(1, "Obrigatório"),
-    initialData: z.string().regex(dateRegex, "DD/MM/AAAA"),
-    finalDate: z.string().regex(dateRegex, "DD/MM/AAAA"),
+    startDate: z.string().regex(dateRegex, "DD/MM/AAAA"),
+    endDate: z.string().regex(dateRegex, "DD/MM/AAAA"),
     withAlert: z.boolean(),
     timeAlert: z.string(),
-    isActive: z.boolean()
 
 }).superRefine((data, ctx) => {
     if (data.withAlert && !timeRegex.test(data.timeAlert)) {
@@ -28,9 +27,8 @@ export type RegisterPurposeForm = z.infer<
 export const REGISTER_PURPOSE_DEFAULT_FORM_VALUES: RegisterPurposeForm =
 {
     name: "",
-    initialData: "",
-    finalDate: "",
+    startDate: "",
+    endDate: "",
     withAlert: false,
     timeAlert: "",
-    isActive: true
 }

@@ -6,8 +6,15 @@ export const styles = StyleSheet.create({
         padding: 16,
         justifyContent: 'flex-end',
     },
-    boxLogin: {
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: '#FFF',
+        textAlign: 'center',
+    },
+    boxForgotPassword: {
         gap: 16,
+        marginTop: 60,
     },
     textForgotPassword: {
         color: '#FFF',

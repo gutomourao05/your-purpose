@@ -6,10 +6,18 @@ export const styles = StyleSheet.create({
         padding: 16
     },
 
+    containerLoading: {
+        flex: 1,
+        padding: 16,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
     header: {
         height: 80,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: 16
     }
 })

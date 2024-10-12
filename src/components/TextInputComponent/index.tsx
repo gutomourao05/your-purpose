@@ -9,7 +9,7 @@ type Props = TextInputProps & {
     isPassword?: boolean
 }
 const TextInputComponent = ({ placeholder, icon, isPassword = false, ...rest }: Props) => {
-    const [showPassword, setShowPassword] = useState(false)
+    const [showPassword, setShowPassword] = useState(isPassword)
     return (
         <View style={styles.container}>
             <MaterialIcons name={icon} size={20} color="#FFF" />

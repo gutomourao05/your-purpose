@@ -1,15 +1,19 @@
-import { KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, View } from "react-native"
+import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, View } from "react-native"
 import { BottomSheetTextInput, BottomSheetView } from "@gorhom/bottom-sheet"
 import Checkbox from 'expo-checkbox';
 import { styles } from "./styles"
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { REGISTER_PURPOSE_DEFAULT_FORM_VALUES, RegisterPurposeForm, RegisterPurposeSchema } from "./RegisterPurposeForm";
+import { useCreatePurpose } from "../../http/hooks/purpose/useCreatePurpose";
+import { formatDate } from "../../utils/formatDateWithAlert";
 
 type Props = {
     handleSavePress: () => void
 }
 const RegisterPurposeContent = ({ handleSavePress }: Props) => {
+
+    const { savePurpose, isPendingPurpose } = useCreatePurpose()
 
     const {
         control,
@@ -22,22 +26,19 @@ const RegisterPurposeContent = ({ handleSavePress }: Props) => {
         defaultValues: REGISTER_PURPOSE_DEFAULT_FORM_VALUES,
     });
     const onSubmit = (data: RegisterPurposeForm) => {
-        let newDataInitial = ""
-        let newDataFinal = ""
-        const arrayDataInitial = data.initialData.split("/")
-        const arrayTimeAlert = data.timeAlert.split(":")
-        const arrayDataFinal = data.finalDate.split("/")
-
-        if (!data.timeAlert) {
-            newDataInitial = `${arrayDataInitial[2]}-${arrayDataInitial[1]}-${arrayDataInitial[0]}T00:00:00.000Z`
-            newDataFinal = `${arrayDataFinal[2]}-${arrayDataFinal[1]}-${arrayDataFinal[0]}T00:00:00.000Z`
-
-        } else {
-            newDataInitial = `${arrayDataInitial[2]}-${arrayDataInitial[1]}-${arrayDataInitial[0]}T${arrayTimeAlert[0]}:${arrayTimeAlert[1]}:00.000Z`
-            newDataFinal = `${arrayDataFinal[2]}-${arrayDataFinal[1]}-${arrayDataFinal[0]}T${arrayTimeAlert[0]}:${arrayTimeAlert[1]}:00.000Z`
-        }
-        handleSavePress()
-        reset()
+        const startDate = formatDate(data.startDate, data.timeAlert);
+        const endDate = formatDate(data.endDate, data.timeAlert);
+        savePurpose({
+            purpose: {
+                name: data.name,
+                startDate: startDate,
+                endDate: endDate,
+                withAlert: data.withAlert
+            }, onSuccess: () => {
+                reset();
+                handleSavePress();
+            }
+        })
     }
 
     const withAlertValue = watch("withAlert");
@@ -71,7 +72,7 @@ const RegisterPurposeContent = ({ handleSavePress }: Props) => {
                                 )} />
                         </View>
                         <View style={{ width: "100%", display: "flex", flexDirection: "row", marginTop: 4, gap: 12 }}>
-                            <Controller name="initialData" control={control} render={({ field: { value, onChange, ...rest } }) => (
+                            <Controller name="startDate" control={control} render={({ field: { value, onChange, ...rest } }) => (
                                 <View style={{ width: "48%" }} >
                                     <Text style={styles.label}>Data inicial</Text>
                                     <BottomSheetTextInput
@@ -82,11 +83,11 @@ const RegisterPurposeContent = ({ handleSavePress }: Props) => {
                                         onChangeText={onChange}
                                         {...rest}
                                     />
-                                    {!!errors.initialData && <Text style={styles.error}>{errors.initialData.message}</Text>}
+                                    {!!errors.startDate && <Text style={styles.error}>{errors.startDate.message}</Text>}
                                 </View>
                             )} />
 
-                            <Controller name="finalDate" control={control} render={({ field: { onChange, value, ...rest } }) => (
+                            <Controller name="endDate" control={control} render={({ field: { onChange, value, ...rest } }) => (
                                 <View style={{ width: "48%" }}>
                                     <Text style={styles.label}>Data final</Text>
                                     <BottomSheetTextInput
@@ -97,7 +98,7 @@ const RegisterPurposeContent = ({ handleSavePress }: Props) => {
                                         onChangeText={onChange}
                                         {...rest}
                                     />
-                                    {!!errors.finalDate && <Text style={styles.error}>{errors.finalDate.message}</Text>}
+                                    {!!errors.endDate && <Text style={styles.error}>{errors.endDate.message}</Text>}
                                 </View>
                             )} />
                         </View>
@@ -129,7 +130,7 @@ const RegisterPurposeContent = ({ handleSavePress }: Props) => {
                         </View>
 
                         <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handleSubmit(onSubmit)}>
-                            <Text style={styles.buttonText}>SALVAR</Text>
+                            {isPendingPurpose ? <ActivityIndicator /> : <Text style={styles.buttonText}>SALVAR</Text>}
                         </TouchableOpacity>
                     </View>
                 </ScrollView>

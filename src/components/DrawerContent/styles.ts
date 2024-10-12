@@ -3,24 +3,22 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 16,
-        marginTop: 16,
-        justifyContent: 'space-between',
         alignItems: 'center',
+        justifyContent: 'space-around',
     },
 
-    containerImagePerson: {
+    imgQrCode: {
         width: 150,
         height: 150,
-        borderRadius: 100,
         backgroundColor: '#545454',
         alignItems: 'center',
         justifyContent: 'center'
     },
 
-    textLogout: {
-        color: '#FFF',
-        fontSize: 24
+    textCopy: {
+        color: '#000',
+        fontSize: 14,
+        fontWeight: 'bold'
     },
 
     buttonLogout: {
@@ -32,5 +30,11 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: 16,
         borderRadius: 8
-    }
+    },
+
+    textLogout: {
+        color: '#FFF',
+        fontSize: 16,
+        fontWeight: 'bold'
+    },
 })
