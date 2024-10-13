@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from '../../services/TokenService';
 
 const AppConnection = axios.create({
-    baseURL: 'http://localhost:5097/api/',
+    baseURL: 'http://developingsolutions.com.br:7000/api/',
     timeout: 10000,
 });
 

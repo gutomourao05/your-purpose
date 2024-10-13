@@ -10,6 +10,7 @@ import { userChangePassword } from "../../http/hooks/user/userChangePassword"
 import { CHANGE_PASSWORD_DEFAULT_FORM_VALUES, ChangePasswordForm, ChangePasswordSchema } from "./ChangePasswordForm"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
+import { ButtonBack } from "../../components/ButtonBack"
 
 const ChangePassword = () => {
     const navigation = useNavigation<NavigationProp<any>>()
@@ -33,6 +34,7 @@ const ChangePassword = () => {
 
     return (
         <ImageBackground source={imgBg} style={styles.container}>
+            <ButtonBack />
             <View style={styles.boxLogin}>
                 <Controller control={control} name="password" render={({ field: { onChange, value, ...rest } }) => (
                     <>

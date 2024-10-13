@@ -6,6 +6,7 @@ import imgBg from "../../images/bg-1.jpg"
 import { styles } from './styles'
 import { useState } from "react";
 import { useAuth } from "../../http/hooks/auth/useAuth";
+import { set } from "react-hook-form";
 
 
 const Login = () => {
@@ -17,7 +18,12 @@ const Login = () => {
     const { login: loginUser, isLoading } = useAuth()
 
     const fetchLogin = () => {
-        loginUser({ user: { email, password } })
+        loginUser({
+            user: { email, password }, onSuccess: () => {
+                setEmail('')
+                setPassword('')
+            }
+        })
     }
 
     return (

@@ -8,6 +8,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native"
 import useAuthStore from "../../store/useAuth";
 type MutationProps = {
     user: AuthPostDto;
+    onSuccess?: () => void
 };
 export const useAuth = () => {
     const navigation = useNavigation<NavigationProp<any>>()
@@ -19,12 +20,12 @@ export const useAuth = () => {
         isPending: isLoading,
     } = useMutation({
         mutationFn: ({ user }: MutationProps) => AppConnection.post<ResponseLoginApi>(`Auth/login`, user),
-        onSuccess: (response, { user }) => {
+        onSuccess: async (response, { user, onSuccess }) => {
             const token = response.data.token.data
             if (token) {
-                saveToken(token)
-                navigation.navigate('Home')
                 AddAuth()
+                await saveToken(token)
+                navigation.navigate('Home')
                 return
             }
 
@@ -32,6 +33,8 @@ export const useAuth = () => {
                 type: "error",
                 text1: response.data.token.message,
             })
+
+            onSuccess && onSuccess();
 
         },
         onError: (error) => {

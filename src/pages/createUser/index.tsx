@@ -8,6 +8,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CREATE_USER_DEFAULT_FORM_VALUES, CreateUserForm, CreateUserSchema } from "./CreateUserForm";
 import { useCreateUser } from "../../http/hooks/user/useCreateUser";
+import { ButtonBack } from "../../components/ButtonBack";
 
 
 const CreateUser = () => {
@@ -32,6 +33,7 @@ const CreateUser = () => {
 
     return (
         <ImageBackground source={imgBg} style={styles.container}>
+            <ButtonBack />
             <View style={styles.boxCreateUser}>
                 <Text style={styles.title}>Crie sua conta</Text>
                 <Controller control={control} name="name" render={({ field: { onChange, value, ...rest } }) => (

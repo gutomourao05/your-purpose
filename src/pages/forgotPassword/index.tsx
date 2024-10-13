@@ -5,7 +5,7 @@ import imgBg from "../../images/bg-1.jpg"
 import { styles } from './styles'
 import { userForgotPassword } from "../../http/hooks/user/userForgotPassword";
 import { useState } from "react";
-
+import { ButtonBack } from "../../components/ButtonBack";
 
 const ForgotPassword = () => {
 
@@ -19,8 +19,9 @@ const ForgotPassword = () => {
 
     return (
         <ImageBackground source={imgBg} style={styles.container}>
+            <ButtonBack />
             <View style={styles.boxForgotPassword}>
-                <Text style={styles.title}>Altere sua senha</Text>
+                <Text style={styles.title}>Recuperar senha</Text>
                 <TextInputComponent placeholder="EMAIL" icon="email" value={email} onChangeText={setEmail} />
                 <ButtonComponent title="ENVIAR" isLoading={forgotPasswordPending} onPress={() => fetchForgotPassword()} />
             </View>
