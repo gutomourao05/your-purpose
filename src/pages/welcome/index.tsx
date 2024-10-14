@@ -6,15 +6,19 @@ import imgBg from "../../images/bg-signIn.jpg"
 import { styles } from './styles'
 import { useEffect } from "react"
 import { getToken } from "../../services/TokenService"
+import useAuthStore from "../../http/store/useAuth"
 
 const Welcome = () => {
     const navigation = useNavigation<NavigationProp<any>>()
+    const { AddAuth } = useAuthStore()
 
     useEffect(() => {
         const fetchToken = async () => {
             try {
                 const storedToken = await getToken();
+
                 if (storedToken) {
+                    AddAuth()
                     navigation.navigate('Home')
                 }
             } catch (error) { }

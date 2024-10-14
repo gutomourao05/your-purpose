@@ -3,9 +3,11 @@
         "Dtos",
         "ebny",
         "gorhom",
+        "guuto",
         "hookform",
         "qrcode",
         "tanstack",
+        "yourpurpose",
         "zustand"
     ]
 }
