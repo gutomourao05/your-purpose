@@ -4,7 +4,7 @@ export type PurposeDto = {
     startDate: string;
     endDate: string;
     withAlert: boolean;
-    timeAlert: string;
     isActive: boolean
     updatedAt: string
+    notifications: string[];
 };

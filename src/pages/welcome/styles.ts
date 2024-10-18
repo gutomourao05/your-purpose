@@ -10,14 +10,13 @@ export const styles = StyleSheet.create({
     },
 
     title: {
-        fontSize: 36,
+        fontSize: 40,
         fontWeight: 'bold',
         color: '#FFF',
     },
 
     text: {
         color: '#FFF',
-        fontSize: 18,
-        textAlign: 'justify'
+        fontSize: 20,
     }
 })

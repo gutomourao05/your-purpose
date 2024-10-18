@@ -1,4 +1,4 @@
-import { ImageBackground, View, Text, TouchableOpacity } from "react-native";
+import { ImageBackground, View, Text, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
 import { NavigationProp, useNavigation } from "@react-navigation/native"
 import { ButtonComponent } from "../../components/ButtonComponent";
 import { TextInputComponent } from "../../components/TextInputComponent";
@@ -33,35 +33,39 @@ const CreateUser = () => {
 
     return (
         <ImageBackground source={imgBg} style={styles.container}>
-            <ButtonBack />
-            <View style={styles.boxCreateUser}>
-                <Text style={styles.title}>Crie sua conta</Text>
-                <Controller control={control} name="name" render={({ field: { onChange, value, ...rest } }) => (
-                    <>
-                        <TextInputComponent placeholder="NOME" icon="person" {...rest} value={value} onChangeText={onChange} />
-                        {errors.name && <Text style={styles.error}>{errors.name.message}</Text>}
-                    </>
-                )} />
-                <Controller control={control} name="email" render={({ field: { onChange, value, ...rest } }) => (
-                    <>
-                        <TextInputComponent placeholder="EMAIL" icon="email" value={value} onChangeText={onChange} {...rest} />
-                        {errors.email && <Text style={styles.error}>{errors.email.message}</Text>}
-                    </>
-                )} />
-                <Controller control={control} name="password" render={({ field: { onChange, value, ...rest } }) => (
-                    <>
-                        <TextInputComponent placeholder="SENHA" icon="lock" isPassword {...rest} value={value} onChangeText={onChange} />
-                        {errors.password && <Text style={styles.error}>{errors.password.message}</Text>}
-                    </>
-                )} />
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} enabled>
+                <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 5 }}>
+                    <ButtonBack />
+                    <View style={styles.boxCreateUser}>
+                        <Text style={styles.title}>Crie sua conta</Text>
+                        <Controller control={control} name="name" render={({ field: { onChange, value, ...rest } }) => (
+                            <>
+                                <TextInputComponent placeholder="NOME" icon="person" {...rest} value={value} onChangeText={onChange} />
+                                {errors.name && <Text style={styles.error}>{errors.name.message}</Text>}
+                            </>
+                        )} />
+                        <Controller control={control} name="email" render={({ field: { onChange, value, ...rest } }) => (
+                            <>
+                                <TextInputComponent placeholder="EMAIL" icon="email" value={value} onChangeText={onChange} {...rest} />
+                                {errors.email && <Text style={styles.error}>{errors.email.message}</Text>}
+                            </>
+                        )} />
+                        <Controller control={control} name="password" render={({ field: { onChange, value, ...rest } }) => (
+                            <>
+                                <TextInputComponent placeholder="SENHA" icon="lock" isPassword {...rest} value={value} onChangeText={onChange} />
+                                {errors.password && <Text style={styles.error}>{errors.password.message}</Text>}
+                            </>
+                        )} />
 
-                <Controller control={control} name="confirmPassword" render={({ field: { onChange, value, ...rest } }) => (
-                    <>
-                        <TextInputComponent placeholder="CONFIRME A SENHA" icon="lock" isPassword {...rest} value={value} onChangeText={onChange} />
-                        {errors.confirmPassword && <Text style={styles.error}>{errors.confirmPassword.message}</Text>}</>
-                )} />
-                <ButtonComponent title="CADASTRAR" isLoading={isPendingUser} onPress={handleSubmit(onSubmit)} />
-            </View>
+                        <Controller control={control} name="confirmPassword" render={({ field: { onChange, value, ...rest } }) => (
+                            <>
+                                <TextInputComponent placeholder="CONFIRME A SENHA" icon="lock" isPassword {...rest} value={value} onChangeText={onChange} />
+                                {errors.confirmPassword && <Text style={styles.error}>{errors.confirmPassword.message}</Text>}</>
+                        )} />
+                        <ButtonComponent title="CADASTRAR" isLoading={isPendingUser} onPress={handleSubmit(onSubmit)} />
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
         </ImageBackground>
     );
 };

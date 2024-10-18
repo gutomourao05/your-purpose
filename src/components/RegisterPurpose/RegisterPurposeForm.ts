@@ -11,6 +11,34 @@ export const RegisterPurposeSchema = z.object({
     timeAlert: z.string(),
 
 }).superRefine((data, ctx) => {
+    const [startDay, startMonth, startYear] = data.startDate.split("/").map(Number);
+    const [endDay, endMonth, endYear] = data.endDate.split("/").map(Number);
+
+    const today = new Date();
+    const todayDay = today.getDate();
+    const todayMonth = today.getMonth() + 1;
+    const todayYear = today.getFullYear();
+
+    if (startYear < todayYear ||
+        (startYear === todayYear && startMonth < todayMonth) ||
+        (startYear === todayYear && startMonth === todayMonth && startDay < todayDay)) {
+        ctx.addIssue({
+            code: "custom",
+            path: ["startDate"],
+            message: "Menor que a data de hoje",
+        });
+    }
+
+    if (endYear < startYear ||
+        (endYear === startYear && endMonth < startMonth) ||
+        (endYear === startYear && endMonth === startMonth && endDay < startDay)) {
+        ctx.addIssue({
+            code: "custom",
+            path: ["endDate"],
+            message: "Menor que a data de inicial",
+        });
+    }
+
     if (data.withAlert && !timeRegex.test(data.timeAlert)) {
         ctx.addIssue({
             code: "custom",
@@ -18,7 +46,7 @@ export const RegisterPurposeSchema = z.object({
             message: "HH:MM",
         });
     }
-});;
+});
 
 export type RegisterPurposeForm = z.infer<
     typeof RegisterPurposeSchema

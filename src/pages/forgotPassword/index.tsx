@@ -1,4 +1,4 @@
-import { ImageBackground, View, Text } from "react-native";
+import { ImageBackground, View, Text, KeyboardAvoidingView, ScrollView, Platform, Keyboard, SafeAreaView } from "react-native";
 import { ButtonComponent } from "../../components/ButtonComponent";
 import { TextInputComponent } from "../../components/TextInputComponent";
 import imgBg from "../../images/bg-1.jpg"
@@ -19,13 +19,17 @@ const ForgotPassword = () => {
 
     return (
         <ImageBackground source={imgBg} style={styles.container}>
-            <ButtonBack />
-            <View style={styles.boxForgotPassword}>
-                <Text style={styles.title}>Recuperar senha</Text>
-                <TextInputComponent placeholder="EMAIL" icon="email" value={email} onChangeText={setEmail} />
-                <ButtonComponent title="ENVIAR" isLoading={forgotPasswordPending} onPress={() => fetchForgotPassword()} />
-            </View>
-        </ImageBackground>
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} >
+                <ScrollView showsVerticalScrollIndicator={false} >
+                    <ButtonBack />
+                    <View style={styles.boxForgotPassword}>
+                        <Text style={styles.title}>Recuperar senha</Text>
+                        <TextInputComponent placeholder="EMAIL" icon="email" value={email} onChangeText={setEmail} />
+                        <ButtonComponent title="ENVIAR" isLoading={forgotPasswordPending} onPress={() => fetchForgotPassword()} />
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </ImageBackground >
     );
 };
 

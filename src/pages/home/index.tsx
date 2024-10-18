@@ -1,8 +1,7 @@
-import React, { useCallback, useRef } from "react"
+import React, { useCallback, useEffect, useMemo, useRef } from "react"
 import { ActivityIndicator, FlatList, ImageBackground, SafeAreaView, TouchableOpacity, View } from "react-native"
 import { MaterialIcons } from '@expo/vector-icons'
 import { DrawerActions, NavigationProp, useNavigation } from "@react-navigation/native"
-
 import { ButtonPlusComponent } from "../../components/ButtonPlusComponent"
 import imgBg from "../../images/bg2.jpg"
 import { styles } from './styles'
@@ -10,6 +9,8 @@ import { RegisterPurposeContent } from "../../components/RegisterPurpose"
 import BottomSheet from "@gorhom/bottom-sheet"
 import { Card } from "../../components/Card"
 import { useFetchPurpose } from "../../http/hooks/purpose/useFetchPurpose"
+import * as Notifications from 'expo-notifications';
+import { requestNotificationPermissions } from "../../utils/notifications"
 
 const Home = () => {
     const bottomSheetRef = useRef<BottomSheet>(null);
@@ -28,9 +29,13 @@ const Home = () => {
         bottomSheetRef.current?.close();
     }, []);
 
+    useEffect(() => {
+        requestNotificationPermissions()
+    }, [])
+
     return (
         <ImageBackground source={imgBg} style={isLoadingPurposes ? styles.containerLoading : styles.container} >
-            {isLoadingPurposes ? <ActivityIndicator size={'large'} /> : (
+            {isLoadingPurposes ? <ActivityIndicator size={'large'} color={'#000'} /> : (
                 <>
                     <SafeAreaView style={styles.header}>
                         <ButtonPlusComponent onPress={() => handleOpenBottomSheet()} />
@@ -48,7 +53,7 @@ const Home = () => {
                         style={{ marginBottom: 44 }}
                         onEndReached={() => { }}
                         onEndReachedThreshold={0.1}
-                        onAccessibilityAction={() => { }}
+                        onAccessibilityAction={() => purposes}
                     />
 
                     <BottomSheet

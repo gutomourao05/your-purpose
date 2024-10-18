@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { PurposeDto } from "../../Dtos/Purposes/PurposeDto";
 import AppConnection from "../../axios/AppConnection";
 import { ResponseApi } from "../../types";
+import { PurposeDto } from "../../dtos/Purposes/PurposeDto";
 export const useFetchPurpose = () => {
     const {
         data,

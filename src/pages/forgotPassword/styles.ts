@@ -4,7 +4,6 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-        justifyContent: 'space-between',
     },
     title: {
         fontSize: 24,
@@ -14,7 +13,8 @@ export const styles = StyleSheet.create({
     },
     boxForgotPassword: {
         gap: 16,
-        marginTop: 60,
+        marginTop: 20,
+
     },
     textForgotPassword: {
         color: '#FFF',

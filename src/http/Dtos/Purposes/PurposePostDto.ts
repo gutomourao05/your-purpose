@@ -3,4 +3,5 @@ export type PurposePostDto = {
     startDate: string;
     endDate: string;
     withAlert: boolean;
+    notifications: string[];
 };
