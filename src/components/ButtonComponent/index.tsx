@@ -13,7 +13,7 @@ const ButtonComponent = ({ title, isLoading = false, ...rest }: Props) => {
             activeOpacity={0.7}
             style={styles.container}
             {...rest} >
-            {isLoading ? <ActivityIndicator color={'#000'} /> : <Text style={styles.title}>{title}</Text>}
+            {isLoading ? <ActivityIndicator color={'#000'} size={'large'} /> : <Text style={styles.title}>{title}</Text>}
             {rest.icon && <MaterialIcons name={rest.icon} size={24} color="#000" />}
         </TouchableOpacity >
     )

@@ -1,5 +1,5 @@
 import React from "react"
-import { ImageBackground, Text, TouchableOpacity, View } from "react-native"
+import { ImageBackground, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, View } from "react-native"
 import { NavigationProp, useNavigation } from "@react-navigation/native"
 
 import imgBg from "../../images/bg2.jpg"
@@ -34,28 +34,34 @@ const ChangePassword = () => {
 
     return (
         <ImageBackground source={imgBg} style={styles.container}>
-            <ButtonBack />
-            <View style={styles.boxLogin}>
-                <Controller control={control} name="password" render={({ field: { onChange, value, ...rest } }) => (
-                    <>
-                        <TextInputComponent placeholder="SENHA ANTIGA" icon="lock" isPassword value={value} onChangeText={onChange} {...rest} />
-                        {errors.password && <Text style={styles.error}>{errors.password.message}</Text>}
-                    </>
-                )} />
-                <Controller control={control} name="newPassword" render={({ field: { onChange, value, ...rest } }) => (
-                    <>
-                        <TextInputComponent placeholder="NOVA SENHA" icon="lock" isPassword value={value} onChangeText={onChange} {...rest} />
-                        {errors.newPassword && <Text style={styles.error}>{errors.newPassword.message}</Text>}
-                    </>
-                )} />
-                <Controller control={control} name="confirmPassword" render={({ field: { onChange, value, ...rest } }) => (
-                    <>
-                        <TextInputComponent placeholder="CONFIRME A SENHA" icon="lock" isPassword value={value} onChangeText={onChange} {...rest} />
-                        {errors.confirmPassword && <Text style={styles.error}>{errors.confirmPassword.message}</Text>}
-                    </>
-                )} />
-                <ButtonComponent title="TROCAR SENHA" isLoading={changePasswordPending} onPress={handleSubmit(onSubmit)} />
-            </View>
+
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} >
+                <ScrollView style={{ marginBottom: 10 }} showsVerticalScrollIndicator={false} >
+                    <ButtonBack />
+
+                    <View style={styles.boxLogin}>
+                        <Controller control={control} name="password" render={({ field: { onChange, value, ...rest } }) => (
+                            <>
+                                <TextInputComponent placeholder="SENHA ANTIGA" icon="lock" isPassword value={value} onChangeText={onChange} {...rest} />
+                                {errors.password && <Text style={styles.error}>{errors.password.message}</Text>}
+                            </>
+                        )} />
+                        <Controller control={control} name="newPassword" render={({ field: { onChange, value, ...rest } }) => (
+                            <>
+                                <TextInputComponent placeholder="NOVA SENHA" icon="lock" isPassword value={value} onChangeText={onChange} {...rest} />
+                                {errors.newPassword && <Text style={styles.error}>{errors.newPassword.message}</Text>}
+                            </>
+                        )} />
+                        <Controller control={control} name="confirmPassword" render={({ field: { onChange, value, ...rest } }) => (
+                            <>
+                                <TextInputComponent placeholder="CONFIRME A SENHA" icon="lock" isPassword value={value} onChangeText={onChange} {...rest} />
+                                {errors.confirmPassword && <Text style={styles.error}>{errors.confirmPassword.message}</Text>}
+                            </>
+                        )} />
+                        <ButtonComponent title="TROCAR SENHA" isLoading={changePasswordPending} onPress={handleSubmit(onSubmit)} />
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
         </ImageBackground >
     )
 }

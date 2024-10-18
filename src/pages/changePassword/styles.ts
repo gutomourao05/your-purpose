@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
     },
     boxLogin: {
         gap: 16,
+        marginTop: 40
     },
     textForgotPassword: {
         color: '#FFF',

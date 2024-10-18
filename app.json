@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Seu proposito",
+    "name": "Seu propósito",
     "slug": "your-purpose",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -25,7 +25,15 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
     ],
     "extra": {
       "eas": {

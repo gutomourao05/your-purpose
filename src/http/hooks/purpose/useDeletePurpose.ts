@@ -2,9 +2,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import AppConnection from "../../axios/AppConnection";
 import { AxiosError } from "axios";
 import Toast from "react-native-toast-message";
+import { removeNotifications } from "../../../utils/notifications";
 
 type MutationProps = {
     id: string;
+    arrayNotification: string[];
 };
 
 export const useDeletePurpose = () => {
@@ -17,10 +19,14 @@ export const useDeletePurpose = () => {
         unknown
     >({
         mutationFn: ({ id }) => AppConnection.delete(`/purpose/delete?id=${id}`),
-        onSuccess: () => {
+        onSuccess: async (response, { id, arrayNotification }) => {
             queryClient.invalidateQueries({
                 queryKey: ["purposes"],
             });
+
+            arrayNotification.map(async (notification) => {
+                await removeNotifications(notification);
+            })
 
             Toast.show({
                 type: "success",

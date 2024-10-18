@@ -2,10 +2,10 @@ import { useMutation } from "@tanstack/react-query";
 import AppConnection from "../../axios/AppConnection";
 import Toast from "react-native-toast-message";
 import { ResponseLoginApi } from "../../types";
-import { AuthPostDto } from "../../Dtos/Auth/AuthPostoDto";
 import { saveToken } from "../../../services/TokenService";
 import { NavigationProp, useNavigation } from "@react-navigation/native"
 import useAuthStore from "../../store/useAuth";
+import { AuthPostDto } from "../../dtos/Auth/AuthPostoDto";
 type MutationProps = {
     user: AuthPostDto;
     onSuccess?: () => void

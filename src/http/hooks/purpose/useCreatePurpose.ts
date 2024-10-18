@@ -1,9 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import AppConnection from "../../axios/AppConnection";
-import { PurposePostDto } from "../../Dtos/Purposes/PurposePostDto";
+import { PurposePostDto } from "../../dtos/Purposes/PurposePostDto";
 import Toast from "react-native-toast-message";
 import { ResponseApi } from "../../types";
-import { PurposeDto } from "../../Dtos/Purposes/PurposeDto";
+import { PurposeDto } from "../../dtos/Purposes/PurposeDto";
+import { saveNotifications } from "../../../utils/notifications";
 type MutationProps = {
     purpose: PurposePostDto;
     onSuccess?: () => void;
@@ -16,13 +17,22 @@ export const useCreatePurpose = () => {
         isSuccess: isPurposeSaved,
         isPending: isPendingPurpose,
     } = useMutation({
-        mutationFn: ({ purpose }: MutationProps) => {
-            return AppConnection.post<ResponseApi<PurposeDto>>(`/purpose/create`, purpose)
+        mutationFn: async ({ purpose }: MutationProps) => {
+            const arrayNotifications = await saveNotifications(purpose.startDate, purpose.endDate, `Notificação de ${purpose.name}`, `Você solicitou notificações sobre ${purpose.name}`);
+
+            return await AppConnection.post<ResponseApi<PurposeDto>>(`/purpose/create`, {
+                name: purpose.name,
+                startDate: purpose.startDate,
+                endDate: purpose.endDate,
+                withAlert: purpose.withAlert,
+                notifications: arrayNotifications
+            })
         },
         onSuccess: (response, { onSuccess, purpose }) => {
             queryClient.invalidateQueries({
                 queryKey: ["purposes"]
             });
+
             Toast.show({
                 type: "success",
                 text1: `Purpose ${purpose.name} criado com sucesso!`,
