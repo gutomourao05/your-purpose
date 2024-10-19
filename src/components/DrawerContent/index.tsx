@@ -3,7 +3,7 @@ import { TouchableOpacity } from "react-native-gesture-handler"
 import { DrawerContentComponentProps } from "@react-navigation/drawer"
 import { MaterialIcons } from '@expo/vector-icons'
 import * as Clipboard from 'expo-clipboard';
-import { NavigationProp, useNavigation } from "@react-navigation/native"
+import { DrawerActions, NavigationProp, useNavigation } from "@react-navigation/native"
 
 import qrCodePixImg from '../../images/qrcodePix.jpeg'
 
@@ -43,7 +43,7 @@ const DrawerContent = (drawerProps: DrawerContentComponentProps) => {
                 <TouchableOpacity style={styles.buttonLogout} onPress={() => {
                     deleteToken();
                     RemoveAuth();
-                    navigation.navigate('Login');
+                    navigation.dispatch(DrawerActions.closeDrawer())
                 }} activeOpacity={0.7}>
                     <Text style={styles.textLogout}>SAIR</Text>
                 </TouchableOpacity>

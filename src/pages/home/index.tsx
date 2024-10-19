@@ -9,7 +9,6 @@ import { RegisterPurposeContent } from "../../components/RegisterPurpose"
 import BottomSheet from "@gorhom/bottom-sheet"
 import { Card } from "../../components/Card"
 import { useFetchPurpose } from "../../http/hooks/purpose/useFetchPurpose"
-import * as Notifications from 'expo-notifications';
 import { requestNotificationPermissions } from "../../utils/notifications"
 
 const Home = () => {
