@@ -51,9 +51,7 @@ const Home = () => {
                         contentContainerStyle={{ gap: 12 }}
                         keyExtractor={item => item.id}
                         style={{ marginBottom: 44 }}
-                        onEndReached={() => { }}
                         onEndReachedThreshold={0.1}
-                        onAccessibilityAction={() => purposes}
                     />
 
                     <BottomSheet

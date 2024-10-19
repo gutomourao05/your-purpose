@@ -2,9 +2,9 @@ import { useMutation } from "@tanstack/react-query";
 import AppConnection from "../../axios/AppConnection";
 import Toast from "react-native-toast-message";
 import { ResponseApi } from "../../types";
-import { UserPostDto } from "../../Dtos/Users/UserPostDto";
-import { UserDto } from "../../Dtos/Users/UserDto";
 import { NavigationProp, useNavigation } from "@react-navigation/native"
+import { UserPostDto } from "../../dtos/Users/UserPostDto";
+import { UserDto } from "../../dtos/Users/UserDto";
 type MutationProps = {
     user: UserPostDto;
     onSuccess?: () => void;

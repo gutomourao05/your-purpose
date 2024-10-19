@@ -19,7 +19,7 @@ export const useDeletePurpose = () => {
         unknown
     >({
         mutationFn: ({ id }) => AppConnection.delete(`/purpose/delete?id=${id}`),
-        onSuccess: async (response, { id, arrayNotification }) => {
+        onSuccess: async (_, { arrayNotification }) => {
             queryClient.invalidateQueries({
                 queryKey: ["purposes"],
             });
