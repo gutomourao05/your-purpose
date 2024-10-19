@@ -23,6 +23,22 @@ AppConnection.interceptors.request.use(
     }
 );
 
-
+AppConnection.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    async (error) => {
+        if (error.response && error.response.status === 401) {
+            await deleteToken();
+            if (navigationRef.isReady()) {
+                navigationRef.reset({
+                    index: 0,
+                    routes: [{ name: 'Login' }],
+                });
+            }
+        }
+        return Promise.reject(error);
+    }
+);
 
 export default AppConnection;
