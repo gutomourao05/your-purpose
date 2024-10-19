@@ -20,11 +20,11 @@ export const useAuth = () => {
         isPending: isLoading,
     } = useMutation({
         mutationFn: ({ user }: MutationProps) => AppConnection.post<ResponseLoginApi>(`Auth/login`, user),
-        onSuccess: async (response, { user, onSuccess }) => {
+        onSuccess: async (response, { onSuccess }) => {
             const token = response.data.token.data
             if (token) {
-                AddAuth()
                 await saveToken(token)
+                AddAuth()
                 navigation.navigate('Home')
                 return
             }

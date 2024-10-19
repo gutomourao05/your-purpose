@@ -18,7 +18,7 @@ export const useCreatePurpose = () => {
         isPending: isPendingPurpose,
     } = useMutation({
         mutationFn: async ({ purpose }: MutationProps) => {
-            const arrayNotifications = await saveNotifications(purpose.startDate, purpose.endDate, `Notificação de ${purpose.name}`, `Você solicitou notificações sobre ${purpose.name}`);
+            const arrayNotifications = purpose.withAlert ? await saveNotifications(purpose.startDate, purpose.endDate, `Notificação de ${purpose.name}`, `Você solicitou notificações sobre ${purpose.name}`) : [];
 
             return await AppConnection.post<ResponseApi<PurposeDto>>(`/purpose/create`, {
                 name: purpose.name,
@@ -28,15 +28,10 @@ export const useCreatePurpose = () => {
                 notifications: arrayNotifications
             })
         },
-        onSuccess: (response, { onSuccess, purpose }) => {
+        onSuccess: (_, { onSuccess }) => {
             queryClient.invalidateQueries({
                 queryKey: ["purposes"]
             });
-
-            Toast.show({
-                type: "success",
-                text1: `Purpose ${purpose.name} criado com sucesso!`,
-            })
 
             onSuccess && onSuccess();
         },
